@@ -1,16 +1,16 @@
 :root {
-  /* Color Palette - Premium Dark Theme */
-  --bg-primary: #121212;
-  --bg-secondary: #1C1C1C;
-  --bg-tertiary: #2A2A2A;
+  /* Color Palette - Premium Light Theme */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-tertiary: #E9ECEF;
   
-  --text-primary: #F8F9FA;
-  --text-secondary: #ADB5BD;
+  --text-primary: #121212;
+  --text-secondary: #495057;
   --text-muted: #6C757D;
   
-  --accent: #D4AF37; /* Champagne Gold */
-  --accent-hover: #E8C34B;
-  --accent-muted: rgba(212, 175, 55, 0.2);
+  --accent: #B76E79; /* Rose Gold */
+  --accent-hover: #9E5B65;
+  --accent-muted: rgba(183, 110, 121, 0.2);
   
   --danger: #DC3545; /* For sale/sold out tags */
   

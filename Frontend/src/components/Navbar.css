@@ -13,10 +13,10 @@
 }
 
 .navbar.scrolled {
-  background-color: rgba(18, 18, 18, 0.95);
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   padding: 1rem 5%;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-left, .navbar-right {
@@ -38,9 +38,13 @@
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--text-primary);
+  color: #FFFFFF; /* White when transparent */
   position: relative;
   padding-bottom: 4px;
+}
+
+.navbar.scrolled .nav-link {
+  color: var(--text-primary); /* Dark when scrolled */
 }
 
 /* User requested underline hover effect */
@@ -63,9 +67,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #FFFFFF; /* White when transparent */
   margin: 0;
   letter-spacing: 2px;
+}
+
+.navbar.scrolled .logo {
+  color: var(--text-primary);
 }
 
 .nav-icons {
@@ -74,12 +82,16 @@
 }
 
 .icon-btn {
-  color: var(--text-primary);
+  color: #FFFFFF; /* White when transparent */
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.navbar.scrolled .icon-btn {
+  color: var(--text-primary);
 }
 
 .icon-btn:hover {
