@@ -1,0 +1,82 @@
+.product-section {
+  padding: var(--spacing-xl) 5%;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--bg-tertiary);
+  padding-bottom: 1rem;
+}
+
+.tab-btn {
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
+  color: var(--text-secondary);
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.tab-btn.active, .tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem; /* Aligns with border-bottom of .tabs */
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: width var(--transition-normal);
+}
+
+.tab-btn.active::after {
+  width: 100%;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.section-footer {
+  text-align: center;
+}
+
+.btn-outline-dark {
+  border: 1px solid var(--text-secondary);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  padding: 1rem 3rem;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all var(--transition-normal);
+}
+
+.btn-outline-dark:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+}
