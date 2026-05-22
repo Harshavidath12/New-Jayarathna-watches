@@ -1,0 +1,284 @@
+/* Premium Sign In styling - Alabaster Cream Theme */
+.signin-page-container {
+  min-height: 100vh;
+  background-color: #FAF8F5; /* Warm Luxury Alabaster Cream */
+  color: #1C1917; /* Deep Charcoal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2.5rem 1.5rem;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Minimal Header */
+.signin-header {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.signin-logo {
+  font-family: 'Playfair Display', 'Didot', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #1C1917;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.signin-logo:hover {
+  opacity: 0.8;
+}
+
+/* Centered Sign In Card Wrapper */
+.signin-card-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.signin-card {
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 10px 40px rgba(28, 25, 23, 0.05); /* Ultra soft luxury drop shadow */
+  border: 1px solid rgba(229, 224, 216, 0.5); /* Sandstone-inspired border line */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.signin-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1C1917;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.signin-subtitle {
+  font-size: 0.95rem;
+  color: #78716C; /* Soft Warm Gray */
+  margin: 0 0 2rem 0;
+}
+
+/* Continue with shop button */
+.continue-shop-btn {
+  width: 100%;
+  padding: 1.1rem;
+  background-color: #5B44E5; /* Signature purple from image */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(91, 68, 229, 0.2);
+}
+
+.continue-shop-btn:hover {
+  background-color: #4A33D3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91, 68, 229, 0.3);
+}
+
+.continue-shop-btn:active {
+  transform: translateY(0);
+}
+
+/* Divider block */
+.divider-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #A8A29E;
+  font-size: 0.9rem;
+}
+
+.divider-container::before,
+.divider-container::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E7E5E4;
+}
+
+.divider-container::before {
+  margin-right: 1rem;
+}
+
+.divider-container::after {
+  margin-left: 1rem;
+}
+
+.divider-text {
+  text-transform: lowercase;
+  font-weight: 500;
+}
+
+/* Form Styles */
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.signin-error {
+  background-color: #FEF2F2;
+  border: 1px solid #FEE2E2;
+  color: #DC2626;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Floating Label Inputs */
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.signin-input {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  background-color: #F8F6F4; /* Light warm alabaster tint */
+  border: 1px solid #E7E5E4;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #1C1917;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.signin-input:focus {
+  border-color: #C5A880; /* Elegant gold accent border */
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(197, 168, 128, 0.15);
+}
+
+/* Floating label logic */
+.input-label {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #78716C;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 1rem;
+}
+
+.signin-input:focus ~ .input-label,
+.signin-input.has-value ~ .input-label,
+.signin-input:valid ~ .input-label {
+  top: 0.3rem;
+  font-size: 0.75rem;
+  color: #C5A880;
+  transform: translateY(0);
+}
+
+/* Make space for floating label inside input */
+.signin-input:focus,
+.signin-input.has-value {
+  padding-top: 1.6rem;
+  padding-bottom: 0.8rem;
+}
+
+/* Password group specific (has inside submit button) */
+.password-group {
+  display: flex;
+  align-items: center;
+}
+
+.password-group .signin-input {
+  padding-right: 3.5rem; /* space for arrow button */
+}
+
+.submit-arrow-btn {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  background-color: #E7E5E4;
+  color: #78716C;
+  border: none;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.submit-arrow-btn.active {
+  background-color: #1C1917; /* Slate charcoal button */
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(28, 25, 23, 0.25);
+}
+
+.submit-arrow-btn.active:hover {
+  background-color: #C5A880; /* Turns Gold on hover! */
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.submit-arrow-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.submit-arrow-btn.active:hover svg {
+  transform: translateX(2px);
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #FFFFFF;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Signin Card Footer Links */
+.signin-footer-links {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #78716C;
+  line-height: 1.5;
+}
+
+.underline-link {
+  color: #5B44E5;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.underline-link:hover {
+  color: #C5A880;
+}
