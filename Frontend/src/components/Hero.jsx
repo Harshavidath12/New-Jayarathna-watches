@@ -1,7 +1,7 @@
 import React from 'react';
 import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ onNavigate }) => {
   return (
     <section className="hero">
       <div className="hero-bg">
@@ -24,8 +24,8 @@ const Hero = () => {
         <h2 className="hero-title">Explore Full Collection</h2>
         
         <div className="hero-actions">
-          <button className="btn btn-outline">Men</button>
-          <button className="btn btn-outline">Women</button>
+          <button onClick={() => onNavigate('MENS_COLLECTION')} className="btn btn-outline">Men</button>
+          <button onClick={() => onNavigate('HOME')} className="btn btn-outline">Women</button>
         </div>
       </div>
     </section>
