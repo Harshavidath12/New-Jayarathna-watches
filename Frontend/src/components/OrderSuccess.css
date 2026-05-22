@@ -1,0 +1,172 @@
+/* Glassmorphism success page with animated SVG checkmark */
+
+.order-success-page {
+  padding-top: 100px;
+  background-color: #FAF8F5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 4rem;
+}
+
+.success-glass-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  box-shadow: 0 20px 50px rgba(197, 168, 128, 0.15);
+  max-width: 600px;
+  width: 90%;
+  padding: 3.5rem 2.5rem;
+  border-radius: 6px;
+  text-align: center;
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpFade {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* SVG Stroke checkmark animations */
+.success-checkmark-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 2rem;
+}
+
+.success-svg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #C5A880; /* Brass luxury gold */
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #C5A880;
+  animation: fillCircle .4s ease-in-out .4s forwards, scaleCircle .3s ease-in-out .9s forwards;
+}
+
+.success-svg-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #C5A880;
+  fill: none;
+  animation: strokeCircle .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.success-svg-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #FFFFFF;
+  animation: strokeCheck .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+
+@keyframes strokeCircle {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes strokeCheck {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fillCircle {
+  100% {
+    box-shadow: inset 0px 0px 0px 40px #C5A880;
+  }
+}
+
+@keyframes scaleCircle {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+.success-title {
+  font-size: 2.2rem;
+  font-family: var(--font-heading);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1C1917;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.success-message {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.highlight-customer-name {
+  color: #1C1917;
+  font-weight: 600;
+}
+
+/* Success Details list */
+.success-details-panel {
+  background-color: #FAF8F5;
+  border: 1px solid rgba(197, 168, 128, 0.15);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.details-label {
+  color: var(--text-muted);
+}
+
+.details-value {
+  font-weight: 500;
+  color: #1C1917;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.btn-success-shopping {
+  background-color: #1C1917;
+  color: #FFFFFF;
+  border: none;
+  padding: 1.15rem 2.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(28, 25, 23, 0.2);
+}
+
+.btn-success-shopping:hover {
+  background-color: #C5A880;
+  box-shadow: 0 6px 20px rgba(197, 168, 128, 0.3);
+  transform: translateY(-2px);
+}
