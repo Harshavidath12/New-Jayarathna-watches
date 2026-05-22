@@ -60,9 +60,9 @@ const Footer = () => {
           <h4 className="footer-title">Get in touch</h4>
           <p className="footer-text">Visit our premium store to explore timeless watches, designer handbags, and exclusive accessories in an elegant shopping experience.</p>
           <address className="footer-address">
-            No.30 DR. Lester James Peries Mawatha, Colombo 05, Sri Lanka<br/><br/>
-            +94 76 09211 21<br/><br/>
-            timevault@gmail.com
+            146/6, Medhanandha Mawatha Pahala Bomiriya Kaduwela<br/><br/>
+            0706625728<br/><br/>
+            info@njwatches.lk
           </address>
         </div>
       </div>
