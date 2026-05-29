@@ -25,7 +25,7 @@ const Hero = ({ onNavigate }) => {
         
         <div className="hero-actions">
           <button onClick={() => onNavigate('MENS_COLLECTION')} className="btn btn-outline">Men</button>
-          <button onClick={() => onNavigate('HOME')} className="btn btn-outline">Women</button>
+          <button onClick={() => onNavigate('WOMENS_COLLECTION')} className="btn btn-outline">Women</button>
         </div>
       </div>
     </section>
