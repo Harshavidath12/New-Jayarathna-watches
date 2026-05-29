@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import './ProductSection.css';
 
-const ProductSection = ({ title, subtitle, products }) => {
+const ProductSection = ({ title, subtitle, products, onNavigate, onSelectProduct }) => {
   const [activeTab, setActiveTab] = useState('MEN');
 
   const filteredProducts = products.filter(p => p.category === activeTab);
@@ -29,12 +29,21 @@ const ProductSection = ({ title, subtitle, products }) => {
       
       <div className="product-grid">
         {filteredProducts.map(product => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard 
+            key={product.id} 
+            {...product} 
+            onClick={() => onSelectProduct(product)} 
+          />
         ))}
       </div>
       
       <div className="section-footer">
-        <button className="btn btn-outline-dark">View Full Collection</button>
+        <button 
+          onClick={() => onNavigate(activeTab === 'MEN' ? 'MENS_COLLECTION' : 'WOMENS_COLLECTION')} 
+          className="btn btn-outline-dark"
+        >
+          View Full Collection
+        </button>
       </div>
     </section>
   );
