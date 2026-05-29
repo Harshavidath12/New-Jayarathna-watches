@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 
 // New component imports
 import MensCollection from './components/MensCollection';
+import WomensCollection from './components/WomensCollection';
 import ProductDetail from './components/ProductDetail';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './components/Checkout';
@@ -15,20 +16,195 @@ import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 
 // Dummy data for products based on generated images
+// Dummy data for products based on generated images
 const bestSellers = [
-  { id: 1, image: '/watch_1.png', tag: 'SAVE 10%', brand: 'TISSOT', title: 'Tissot Seastar 1000 Quartz Chronograph', oldPrice: 'Rs 105,000.00 LKR', newPrice: 'Rs 94,500.00 LKR', category: 'MEN' },
-  { id: 2, image: '/watch_2.png', tag: 'SAVE 8%', brand: 'TISSOT', title: 'Tissot Pr 100 Chronograph', oldPrice: 'Rs 150,000.00 LKR', newPrice: 'Rs 138,000.00 LKR', category: 'MEN' },
-  { id: 3, image: '/watch_1.png', tag: 'SAVE 5%', brand: 'TISSOT', title: 'Tissot Seastar 1000 Chronograph', oldPrice: 'Rs 220,000.00 LKR', newPrice: 'Rs 209,000.00 LKR', category: 'MEN' },
-  { id: 4, image: '/watch_2.png', tag: 'SAVE 10%', brand: 'TISSOT', title: 'Tissot Seastar 1000 38mm', oldPrice: 'Rs 220,000.00 LKR', newPrice: 'Rs 198,000.00 LKR', category: 'MEN' },
-  { id: 5, image: '/watch_3.png', tag: 'SAVE 15%', brand: 'TISSOT', title: 'Tissot Lovely Square', oldPrice: 'Rs 110,000.00 LKR', newPrice: 'Rs 93,500.00 LKR', category: 'WOMEN' },
-  { id: 6, image: '/watch_3.png', tag: 'SAVE 5%', brand: 'TISSOT', title: 'Tissot Bellissima', oldPrice: 'Rs 140,000.00 LKR', newPrice: 'Rs 133,000.00 LKR', category: 'WOMEN' },
+  { 
+    id: 1, 
+    image: '/men_seiko.jpg', 
+    tag: 'SAVE 8%', 
+    brand: 'SEIKO', 
+    title: 'Seiko Prospex Two-Tone Automatic', 
+    oldPrice: 'Rs 92,000.00 LKR', 
+    newPrice: 'Rs 84,500.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "3 years",
+      "Crystal": "Hardlex crystal",
+      "Movement": "Automatic self-winding 24-jewel mechanical",
+      "Case material": "Gold-plated and stainless steel",
+      "Case shape": "Round",
+      "Water resistance": "20 ATM / 200m"
+    },
+    description: "A premium classic two-tone timepiece, the Seiko Prospex features a robust gold and silver case with a clean white sunray dial decorated with gold hands and dynamic markers."
+  },
+  { 
+    id: 2, 
+    image: '/men_seiko2.webp', 
+    tag: 'SAVE 8%', 
+    brand: 'SEIKO', 
+    title: 'Seiko 5 Sports Military Automatic', 
+    oldPrice: 'Rs 105,000.00 LKR', 
+    newPrice: 'Rs 96,200.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "3 years",
+      "Crystal": "Hardened mineral crystal",
+      "Movement": "Japanese automatic mechanical",
+      "Case material": "Matte stainless steel",
+      "Water resistance": "10 ATM / 100m"
+    },
+    description: "Built for field utilities, this Seiko 5 Sports Military edition features a sandblasted matte case and tactical charcoal canvas strap. Glow-in-the-dark LumiBrite indicators ensure perfect night legibility."
+  },
+  { 
+    id: 3, 
+    image: '/men_police.webp', 
+    tag: 'SAVE 10%', 
+    brand: 'POLICE', 
+    title: 'Police Translucent Chrono Red', 
+    oldPrice: 'Rs 88,000.00 LKR', 
+    newPrice: 'Rs 78,900.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Hardened mineral",
+      "Movement": "High-accuracy quartz chronograph",
+      "Case material": "PVD coated steel",
+      "Water resistance": "5 ATM"
+    },
+    description: "Boasting bold Italian style, the Police Translucent Chrono combines a high-contrast bright red silicone strap with a matte black PVD case and skeletonized dark dial."
+  },
+  { 
+    id: 4, 
+    image: '/men_tissot_pr100.webp', 
+    tag: 'SAVE 9%', 
+    brand: 'TISSOT', 
+    title: 'Tissot PR 100 Chrono Classic', 
+    oldPrice: 'Rs 80,000.00 LKR', 
+    newPrice: 'Rs 72,500.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Scratch-resistant sapphire",
+      "Movement": "Swiss precision quartz",
+      "Case material": "316L Stainless steel",
+      "Water resistance": "10 ATM / 100m"
+    },
+    description: "An outstanding Swiss classic, the Tissot PR 100 features a premium gold-accented bezel and matching two-tone bracelet surrounding a clean silver face with gold indices."
+  },
+  { 
+    id: 5, 
+    image: '/women_wimsons.webp', 
+    tag: 'SAVE 15%', 
+    brand: 'WIMSONS', 
+    title: 'Wimsons Vintage 2026LGMGG', 
+    oldPrice: 'Rs 110,000.00 LKR', 
+    newPrice: 'Rs 93,500.00 LKR', 
+    category: 'WOMEN',
+    specs: {
+      "Warranty": "2 years international warranty",
+      "Crystal": "Hardened mineral crystal",
+      "Movement": "Japanese Quartz movement",
+      "Case shape": "Square",
+      "Water resistance": "3 ATM"
+    },
+    description: "A premium classic timepiece, the Wimsons Vintage 2026LGMGG features an elegant square-cut gold-toned dial paired with a sophisticated gold mesh strap. Perfectly suited for both formal and casual settings."
+  },
+  { 
+    id: 6, 
+    image: '/women_tissot.webp', 
+    tag: 'SAVE 5%', 
+    brand: 'TISSOT', 
+    title: 'Tissot Flamingo (C5)', 
+    oldPrice: 'Rs 140,000.00 LKR', 
+    newPrice: 'Rs 133,000.00 LKR', 
+    category: 'WOMEN',
+    specs: {
+      "Warranty": "2 years international warranty",
+      "Crystal": "Scratch-resistant sapphire crystal",
+      "Movement": "Swiss Quartz movement",
+      "Case shape": "Round",
+      "Water resistance": "5 ATM"
+    },
+    description: "The Tissot Flamingo is an elegant piece of jewelry-inspired design, featuring a circular rose gold case with an exquisite mother of pearl dial and minimalist indicators. Designed to grace any women's wrist with classic charm."
+  },
 ];
 
 const exclusives = [
-  { id: 7, image: '/watch_4.png', tag: 'LIMITED EDITION', darkTag: true, brand: 'SWATCH x OMEGA', title: 'Mission to Earthphase - Moonshine Gold', oldPrice: '', newPrice: 'Rs 155,000.00 LKR', category: 'MEN' },
-  { id: 8, image: '/watch_4.png', tag: 'SOLD OUT', darkTag: true, brand: 'SWATCH x OMEGA', title: 'Mission On Earth - Lava', oldPrice: 'Rs 155,000.00 LKR', newPrice: 'Rs 130,000.00 LKR', category: 'MEN' },
-  { id: 9, image: '/watch_4.png', tag: 'SOLD OUT', darkTag: true, brand: 'SWATCH x OMEGA', title: 'Mission On Earth - Polar Lights', oldPrice: 'Rs 155,000.00 LKR', newPrice: 'Rs 130,000.00 LKR', category: 'MEN' },
-  { id: 10, image: '/watch_4.png', tag: 'SAVE 24%', brand: 'SWATCH x OMEGA', title: 'Mission To Earthphase', oldPrice: 'Rs 189,000.00 LKR', newPrice: 'Rs 143,000.00 LKR', category: 'MEN' },
+  { 
+    id: 7, 
+    image: '/men_wimsons.webp', 
+    tag: 'LIMITED EDITION', 
+    darkTag: true, 
+    brand: 'WIMSONS', 
+    title: 'Wimsons Executive Chrono Silver', 
+    oldPrice: '', 
+    newPrice: 'Rs 185,000.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Double-dome mineral",
+      "Movement": "Japanese chronograph movement",
+      "Case material": "Stainless steel",
+      "Water resistance": "5 ATM"
+    },
+    description: "Sophisticated and clean, the Wimsons Executive features a polished silver stainless steel case and matching bracelet, housing an exquisite sunray ice blue dial with Roman numeral indexes."
+  },
+  { 
+    id: 8, 
+    image: '/men_timberland.webp', 
+    tag: 'SAVE 8%', 
+    darkTag: true, 
+    brand: 'TIMBERLAND', 
+    title: 'Timberland Outdoor Aviator', 
+    oldPrice: 'Rs 180,000.00 LKR', 
+    newPrice: 'Rs 165,000.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Hardened mineral glass",
+      "Movement": "High-torque quartz chrono",
+      "Case material": "Tactical gunmetal steel",
+      "Water resistance": "10 ATM"
+    },
+    description: "An adventure-ready utility watch featuring a sandblasted gunmetal case. The high-contrast black dial features bold numerals and a highly functional branded tan leather strap."
+  },
+  { 
+    id: 9, 
+    image: '/men_casio.webp', 
+    tag: 'SAVE 10%', 
+    darkTag: true, 
+    brand: 'CASIO', 
+    title: 'Casio Edifice Chronograph', 
+    oldPrice: 'Rs 165,000.00 LKR', 
+    newPrice: 'Rs 148,000.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Mineral glass",
+      "Movement": "Japanese Quartz chronograph",
+      "Case material": "Solid stainless steel",
+      "Water resistance": "10 ATM"
+    },
+    description: "Designed for high-speed sport, the Casio Edifice features a vibrant sunray emerald green dial housed inside a robust silver stainless steel case and link bracelet."
+  },
+  { 
+    id: 10, 
+    image: '/men_obaku.webp', 
+    tag: 'SAVE 10%', 
+    brand: 'OBAKU', 
+    title: 'Obaku Denmark Classic', 
+    oldPrice: 'Rs 128,000.00 LKR', 
+    newPrice: 'Rs 115,000.00 LKR', 
+    category: 'MEN',
+    specs: {
+      "Warranty": "2 years",
+      "Crystal": "Hardened titan glass",
+      "Movement": "Precision Danish Quartz",
+      "Case material": "Ultra-thin stainless steel",
+      "Water resistance": "3 ATM"
+    },
+    description: "Embodying classic Scandinavian design principles, this ultra-slim Obaku timepiece offers pure minimalism. Features a rose gold finished shell and fine black mesh strap."
+  },
 ];
 
 function App() {
@@ -95,6 +271,8 @@ function App() {
       const path = window.location.pathname;
       if (path === '/mens') {
         setCurrentPage('MENS_COLLECTION');
+      } else if (path === '/women') {
+        setCurrentPage('WOMENS_COLLECTION');
       } else if (path === '/product') {
         const savedProduct = localStorage.getItem('nj_selected_product');
         if (!savedProduct || savedProduct === 'null') {
@@ -148,6 +326,7 @@ function App() {
     // Update browser URL dynamically without full page refresh
     let newPath = '/';
     if (pageName === 'MENS_COLLECTION') newPath = '/mens';
+    else if (pageName === 'WOMENS_COLLECTION') newPath = '/women';
     else if (pageName === 'PRODUCT_DETAIL') newPath = '/product';
     else if (pageName === 'CHECKOUT') newPath = '/checkout';
     else if (pageName === 'ORDER_SUCCESS') newPath = '/success';
@@ -260,6 +439,13 @@ function App() {
             onNavigate={navigateTo} 
           />
         );
+      case 'WOMENS_COLLECTION':
+        return (
+          <WomensCollection 
+            onSelectProduct={handleSelectProduct} 
+            onNavigate={navigateTo} 
+          />
+        );
       case 'PRODUCT_DETAIL':
         return (
           <ProductDetail 
@@ -305,8 +491,8 @@ function App() {
         return (
           <>
             <Hero onNavigate={navigateTo} />
-            <ProductSection subtitle="Our Best - Sellers" products={bestSellers} />
-            <ProductSection subtitle="Explore Exclusives" products={exclusives} />
+            <ProductSection subtitle="Our Best - Sellers" products={bestSellers} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} />
+            <ProductSection subtitle="Explore Exclusives" products={exclusives} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} />
             <Brands />
           </>
         );
