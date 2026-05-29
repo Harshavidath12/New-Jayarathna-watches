@@ -21,7 +21,12 @@ const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate }) => {
         <div className="detail-breadcrumbs">
           <span onClick={() => onNavigate('HOME')} className="breadcrumb-link">Home</span>
           <span className="breadcrumb-separator">/</span>
-          <span onClick={() => onNavigate('MENS_COLLECTION')} className="breadcrumb-link">Men's Collection</span>
+          <span 
+            onClick={() => onNavigate((product.id >= 200 || product.category === 'WOMEN') ? 'WOMENS_COLLECTION' : 'MENS_COLLECTION')} 
+            className="breadcrumb-link"
+          >
+            {(product.id >= 200 || product.category === 'WOMEN') ? "Women's Collection" : "Men's Collection"}
+          </span>
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-active">{product.title}</span>
         </div>
@@ -38,8 +43,6 @@ const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate }) => {
             {/* Elegant Side Visuals for rich aesthetics */}
             <div className="product-detail-media-gallery">
               <div className="gallery-thumb active"><img src={product.image} alt="Front View" /></div>
-              <div className="gallery-thumb"><img src="/watch_3.png" alt="Alternate View" /></div>
-              <div className="gallery-thumb"><img src="/watch_4.png" alt="Back View" /></div>
             </div>
           </div>
 
