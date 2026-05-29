@@ -1,9 +1,9 @@
 import React from 'react';
 import './ProductCard.css';
 
-const ProductCard = ({ image, tag, brand, title, oldPrice, newPrice, darkTag }) => {
+const ProductCard = ({ image, tag, brand, title, oldPrice, newPrice, darkTag, onClick }) => {
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={onClick} style={{ cursor: 'pointer' }}>
       <div className="card-image-wrapper">
         {tag && (
           <span className={`card-tag ${darkTag ? 'tag-dark' : 'tag-danger'}`}>
