@@ -33,7 +33,7 @@ const Navbar = ({ cartCount = 0, onNavigate, onOpenCart, currentPage = 'HOME', u
           </li>
           <li>
             <button 
-              onClick={() => onNavigate('HOME')} 
+              onClick={() => onNavigate('WOMENS_COLLECTION')} 
               className="nav-link-btn"
             >
               Women
