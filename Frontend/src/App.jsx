@@ -14,6 +14,9 @@ import Checkout from './components/Checkout';
 import OrderSuccess from './components/OrderSuccess';
 import SignIn from './components/SignIn';
 import Profile from './components/Profile';
+import AboutUs from './components/AboutUs';
+import AdminDashboard from './components/AdminDashboard';
+import SearchResults from './components/SearchResults';
 
 // Dummy data for products based on generated images
 // Dummy data for products based on generated images
@@ -210,6 +213,7 @@ const exclusives = [
 function App() {
   // Navigation & Product Detail states
   const [currentPage, setCurrentPage] = useState('HOME'); // 'HOME', 'MENS_COLLECTION', 'PRODUCT_DETAIL', 'CHECKOUT', 'ORDER_SUCCESS'
+  const [searchQuery, setSearchQuery] = useState('');
   
   const [selectedProduct, setSelectedProduct] = useState(() => {
     try {
@@ -273,6 +277,8 @@ function App() {
         setCurrentPage('MENS_COLLECTION');
       } else if (path === '/women') {
         setCurrentPage('WOMENS_COLLECTION');
+      } else if (path === '/aboutus') {
+        setCurrentPage('ABOUT_US');
       } else if (path === '/product') {
         const savedProduct = localStorage.getItem('nj_selected_product');
         if (!savedProduct || savedProduct === 'null') {
@@ -296,6 +302,28 @@ function App() {
         setCurrentPage('ORDER_SUCCESS');
       } else if (path === '/signin') {
         setCurrentPage('SIGN_IN');
+      } else if (path === '/orders') {
+        const savedUser = localStorage.getItem('nj_user');
+        if (!savedUser || savedUser === 'null') {
+          setCurrentPage('SIGN_IN');
+          window.history.replaceState({ page: 'SIGN_IN' }, '', '/signin');
+        } else {
+          setCurrentPage('ORDERS');
+        }
+      } else if (path === '/search') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q') || '';
+        setSearchQuery(query);
+        setCurrentPage('SEARCH_RESULTS');
+      } else if (path === '/admin') {
+        const savedUser = localStorage.getItem('nj_user');
+        const parsedUser = savedUser ? JSON.parse(savedUser) : null;
+        if (!parsedUser || parsedUser.email !== 'dicksonskd62@gmail.com') {
+          setCurrentPage('SIGN_IN');
+          window.history.replaceState({ page: 'SIGN_IN' }, '', '/signin');
+        } else {
+          setCurrentPage('ADMIN');
+        }
       } else if (path === '/profile') {
         const savedUser = localStorage.getItem('nj_user');
         if (!savedUser || savedUser === 'null') {
@@ -319,7 +347,7 @@ function App() {
   }, []);
 
   // Navigation controller with pushState
-  const navigateTo = (pageName) => {
+  const navigateTo = (pageName, param = '') => {
     setCurrentPage(pageName);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -327,11 +355,15 @@ function App() {
     let newPath = '/';
     if (pageName === 'MENS_COLLECTION') newPath = '/mens';
     else if (pageName === 'WOMENS_COLLECTION') newPath = '/women';
+    else if (pageName === 'ABOUT_US') newPath = '/aboutus';
     else if (pageName === 'PRODUCT_DETAIL') newPath = '/product';
     else if (pageName === 'CHECKOUT') newPath = '/checkout';
     else if (pageName === 'ORDER_SUCCESS') newPath = '/success';
     else if (pageName === 'SIGN_IN') newPath = '/signin';
     else if (pageName === 'PROFILE') newPath = '/profile';
+    else if (pageName === 'ORDERS') newPath = '/orders';
+    else if (pageName === 'ADMIN') newPath = '/admin';
+    else if (pageName === 'SEARCH_RESULTS') newPath = `/search?q=${encodeURIComponent(param || searchQuery)}`;
 
     window.history.pushState({ page: pageName }, '', newPath);
   };
@@ -402,7 +434,11 @@ function App() {
     } catch (e) {
       console.error(e);
     }
-    navigateTo('PROFILE');
+    if (userData && userData.email === 'dicksonskd62@gmail.com') {
+      navigateTo('ADMIN');
+    } else {
+      navigateTo('PROFILE');
+    }
   };
 
   // Sign Out Handler
@@ -426,6 +462,12 @@ function App() {
     }
   };
 
+  // Search handler
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    navigateTo('SEARCH_RESULTS', query);
+  };
+
   // Count items inside cart
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -443,6 +485,12 @@ function App() {
         return (
           <WomensCollection 
             onSelectProduct={handleSelectProduct} 
+            onNavigate={navigateTo} 
+          />
+        );
+      case 'ABOUT_US':
+        return (
+          <AboutUs 
             onNavigate={navigateTo} 
           />
         );
@@ -484,6 +532,32 @@ function App() {
             onSignOut={handleSignOut} 
             onNavigate={navigateTo} 
             onUpdateUser={handleUpdateUser}
+            initialTab="profile"
+          />
+        );
+      case 'ORDERS':
+        return (
+          <Profile 
+            user={user} 
+            onSignOut={handleSignOut} 
+            onNavigate={navigateTo} 
+            onUpdateUser={handleUpdateUser}
+            initialTab="orders"
+          />
+        );
+      case 'ADMIN':
+        return (
+          <AdminDashboard 
+            onNavigate={navigateTo} 
+            onSignOut={handleSignOut} 
+          />
+        );
+      case 'SEARCH_RESULTS':
+        return (
+          <SearchResults 
+            searchQuery={searchQuery}
+            onSelectProduct={handleSelectProduct}
+            onNavigate={navigateTo}
           />
         );
       case 'HOME':
@@ -499,12 +573,13 @@ function App() {
     }
   };
 
-  // Elegant e-commerce layout: hide main Header/Footer in Checkout, Success, Sign In, and Profile screens
+  // Elegant e-commerce layout: hide main Header/Footer in Checkout, Success, Sign In, Profile and Admin screens
   const showHeaderFooter = 
     currentPage !== 'CHECKOUT' && 
     currentPage !== 'ORDER_SUCCESS' && 
     currentPage !== 'SIGN_IN' && 
-    currentPage !== 'PROFILE';
+    currentPage !== 'PROFILE' &&
+    currentPage !== 'ADMIN';
 
   return (
     <div className="app">
@@ -515,6 +590,7 @@ function App() {
           onOpenCart={() => setCartOpen(true)} 
           currentPage={currentPage}
           user={user}
+          onSearch={handleSearch}
         />
       )}
 

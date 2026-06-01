@@ -1,9 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Profile.css';
 
-const Profile = ({ user, onSignOut, onNavigate, onUpdateUser }) => {
+const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'profile' }) => {
   // Tabs management ('profile' or 'orders')
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  // Orders listing states
+  const [orders, setOrders] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [ordersError, setOrdersError] = useState('');
+
+  // Sync activeTab when initialTab prop changes
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
+
+  // Fetch orders dynamically from backend Mongoose Booking collection when orders tab is active
+  useEffect(() => {
+    if (user?.email && activeTab === 'orders') {
+      const fetchOrders = async () => {
+        setOrdersLoading(true);
+        setOrdersError('');
+        try {
+          const response = await fetch(`http://localhost:5000/api/bookings/user/${encodeURIComponent(user.email)}`);
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.message || 'Failed to fetch orders');
+          }
+          setOrders(data.bookings || []);
+        } catch (err) {
+          console.error(err);
+          setOrdersError(err.message || 'Could not load your orders. Please try again.');
+        } finally {
+          setOrdersLoading(false);
+        }
+      };
+      fetchOrders();
+    }
+  }, [user?.email, activeTab]);
 
   // Inline edit state for Name
   const [isEditingName, setIsEditingName] = useState(false);
@@ -134,13 +168,13 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser }) => {
         <div className="profile-nav-links">
           <button 
             className={`profile-nav-link ${activeTab === 'orders' ? 'active' : ''}`}
-            onClick={() => setActiveTab('orders')}
+            onClick={() => onNavigate('ORDERS')}
           >
             Orders
           </button>
           <button 
             className={`profile-nav-link ${activeTab === 'profile' ? 'active' : ''}`}
-            onClick={() => setActiveTab('profile')}
+            onClick={() => onNavigate('PROFILE')}
           >
             Profile
           </button>
@@ -165,12 +199,96 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser }) => {
         {activeTab === 'orders' ? (
           /* Orders Tab Content */
           <section className="profile-card orders-card">
-            <div className="no-orders-block-large">
-              <h3 className="no-orders-title">No orders yet</h3>
-              <p className="no-orders-subtext">
-                <span className="store-link" onClick={() => onNavigate('HOME')}>Go to store</span> to place an order.
-              </p>
-            </div>
+            {ordersLoading ? (
+              <div className="orders-loading-spinner">
+                <span className="spinner-dot"></span>
+                <span>Loading your orders...</span>
+              </div>
+            ) : ordersError ? (
+              <p className="orders-error-text">{ordersError}</p>
+            ) : orders.length === 0 ? (
+              <div className="no-orders-block-large">
+                <h3 className="no-orders-title">No orders yet</h3>
+                <p className="no-orders-subtext">
+                  <span className="store-link" onClick={() => onNavigate('HOME')}>Go to store</span> to place an order.
+                </p>
+              </div>
+            ) : (
+              <div className="orders-list-container animate-fade-in">
+                {orders.map((order) => (
+                  <div key={order._id} className="premium-order-invoice-card">
+                    <div className="order-invoice-header">
+                      <div className="order-ref-block">
+                        <span className="order-ref-label">Order Reference</span>
+                        <strong className="order-ref-code">
+                          NJW-{order._id.toString().substring(0, 8).toUpperCase()}
+                        </strong>
+                      </div>
+                      <div className={`order-status-badge ${order.status === 'Delivered' ? 'delivered' : ''}`}>
+                        <span className={`status-dot-active ${order.status === 'Delivered' ? 'green-dot' : ''}`}></span>
+                        {order.status === 'Delivered' ? 'Delivered Successfully' : 'Processing Dispatch'}
+                      </div>
+                    </div>
+
+                    <div className="order-invoice-body">
+                      <div className="order-meta-info-grid">
+                        <div>
+                          <span className="meta-label">Date Placed</span>
+                          <span className="meta-val">
+                            {new Date(order.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="meta-label">Shipping Method</span>
+                          <span className="meta-val">Free Premium Courier</span>
+                        </div>
+                        <div>
+                          <span className="meta-label">Est. Delivery</span>
+                          <span className="meta-val highlight-gold">2-3 Business Days</span>
+                        </div>
+                      </div>
+
+                      <div className="order-items-divider"></div>
+
+                      <div className="order-items-list-block">
+                        <h4 className="purchased-items-title">Purchased Timepieces</h4>
+                        {order.items.map((item, idx) => (
+                          <div key={idx} className="purchased-item-row">
+                            <div className="purchased-item-info">
+                              <span className="purchased-item-bullet">•</span>
+                              <div>
+                                <span className="purchased-item-name">{item.title}</span>
+                                <span className="purchased-item-qty">Qty: {item.quantity}</span>
+                              </div>
+                            </div>
+                            <span className="purchased-item-price">{item.price}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="order-items-divider"></div>
+
+                      <div className="order-invoice-footer">
+                        <div className="billing-address-summary">
+                          <span className="meta-label">Delivered To</span>
+                          <span className="meta-val-address">
+                            {order.firstName} {order.lastName}, {order.address}, {order.city}
+                          </span>
+                        </div>
+                        <div className="order-total-block">
+                          <span className="total-label-small">Total Paid</span>
+                          <strong className="total-price-large">{order.totalAmount}</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         ) : (
           /* Profile Tab Content */
