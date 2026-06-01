@@ -24,6 +24,10 @@ const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
   const [expiryYear, setExpiryYear] = useState('');
   const [cvc, setCvc] = useState('');
   const [billingAddressType, setBillingAddressType] = useState('Same'); // 'Same' or 'Different'
+  const [billingAddress, setBillingAddress] = useState('');
+  const [billingApartment, setBillingApartment] = useState('');
+  const [billingCity, setBillingCity] = useState('');
+  const [billingPostalCode, setBillingPostalCode] = useState('');
 
   // Errors state
   const [shippingErrors, setShippingErrors] = useState({});
@@ -121,6 +125,15 @@ const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
     if (cvc.length !== 3) {
       errors.cvc = 'CVC must be exactly 3 digits';
     }
+
+    if (billingAddressType === 'Different') {
+      if (!billingAddress.trim()) {
+        errors.billingAddress = 'Enter your billing address';
+      }
+      if (!billingCity.trim()) {
+        errors.billingCity = 'Enter your billing city';
+      }
+    }
     
     setPaymentErrors(errors);
     return Object.keys(errors).length === 0;
@@ -148,6 +161,11 @@ const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
           postalCode,
           phone,
           cardType,
+          billingAddressType,
+          billingAddress: billingAddressType === 'Same' ? address : billingAddress,
+          billingApartment: billingAddressType === 'Same' ? apartment : billingApartment,
+          billingCity: billingAddressType === 'Same' ? city : billingCity,
+          billingPostalCode: billingAddressType === 'Same' ? postalCode : billingPostalCode,
           items: cartItems.map(item => ({
             productId: item.product.id,
             title: item.product.title,
@@ -517,6 +535,62 @@ const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
                     <span className="radio-text-label">Use a different billing address</span>
                   </label>
                 </div>
+
+                {billingAddressType === 'Different' && (
+                  <div className="different-billing-address-fields animate-fade-in">
+                    <div className="form-field-group">
+                      <label className="form-field-label">Billing Address</label>
+                      <input 
+                        type="text" 
+                        placeholder="Address" 
+                        value={billingAddress} 
+                        onChange={(e) => setBillingAddress(e.target.value)} 
+                        className={`form-input-field ${paymentErrors.billingAddress ? 'input-error-state' : ''}`}
+                      />
+                      {paymentErrors.billingAddress && (
+                        <span className="field-error-message">{paymentErrors.billingAddress}</span>
+                      )}
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="form-field-label">Apartment, suite, etc. (optional)</label>
+                      <input 
+                        type="text" 
+                        placeholder="Apartment, suite, etc. (optional)" 
+                        value={billingApartment} 
+                        onChange={(e) => setBillingApartment(e.target.value)} 
+                        className="form-input-field"
+                      />
+                    </div>
+
+                    <div className="form-double-fields">
+                      <div className="form-field-group">
+                        <label className="form-field-label">City</label>
+                        <input 
+                          type="text" 
+                          placeholder="City" 
+                          value={billingCity} 
+                          onChange={(e) => setBillingCity(e.target.value)} 
+                          className={`form-input-field ${paymentErrors.billingCity ? 'input-error-state' : ''}`}
+                        />
+                        {paymentErrors.billingCity && (
+                          <span className="field-error-message">{paymentErrors.billingCity}</span>
+                        )}
+                      </div>
+
+                      <div className="form-field-group">
+                        <label className="form-field-label">Postal code (optional)</label>
+                        <input 
+                          type="text" 
+                          placeholder="Postal code" 
+                          value={billingPostalCode} 
+                          onChange={(e) => setBillingPostalCode(e.target.value)} 
+                          className="form-input-field"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Step footer buttons */}
