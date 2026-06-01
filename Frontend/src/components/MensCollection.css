@@ -347,3 +347,10 @@
   font-weight: 600;
   font-size: 1.1rem;
 }
+
+.luxury-tag-badge.out-of-stock-badge {
+  left: auto;
+  right: 1.25rem;
+  background-color: #DC2626;
+  color: #FFFFFF;
+}

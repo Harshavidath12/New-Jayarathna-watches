@@ -292,7 +292,7 @@ export const mensWatches = [
   }
 ];
 
-const MensCollection = ({ onSelectProduct, onNavigate }) => {
+const MensCollection = ({ onSelectProduct, onNavigate, outOfStockTitles = [] }) => {
   const [sortBy, setSortBy] = useState('Featured');
   const [viewMode, setViewMode] = useState('grid-4'); // grid-4, grid-3, list
 
@@ -375,6 +375,9 @@ const MensCollection = ({ onSelectProduct, onNavigate }) => {
               <div className="luxury-card-media">
                 {watch.tag && (
                   <span className="luxury-tag-badge">{watch.tag}</span>
+                )}
+                {outOfStockTitles?.includes(watch.title) && (
+                  <span className="luxury-tag-badge out-of-stock-badge">OUT OF STOCK</span>
                 )}
                 <div className="luxury-image-viewport">
                   <img src={watch.image} alt={watch.title} className="luxury-watch-image" />

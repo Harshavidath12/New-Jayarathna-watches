@@ -4,7 +4,7 @@ import { womensWatches } from './WomensCollection';
 import './MensCollection.css'; // Reuses the beautiful watch card layout
 import './SearchResults.css';
 
-const SearchResults = ({ searchQuery, onSelectProduct, onNavigate }) => {
+const SearchResults = ({ searchQuery, onSelectProduct, onNavigate, outOfStockTitles = [] }) => {
   const allWatches = [...mensWatches, ...womensWatches];
   
   // Exclude duplicate products that may share similar IDs or titles if any
@@ -67,6 +67,9 @@ const SearchResults = ({ searchQuery, onSelectProduct, onNavigate }) => {
                 <div className="luxury-card-media">
                   {watch.tag && (
                     <span className="luxury-tag-badge">{watch.tag}</span>
+                  )}
+                  {outOfStockTitles?.includes(watch.title) && (
+                    <span className="luxury-tag-badge out-of-stock-badge">OUT OF STOCK</span>
                   )}
                   <div className="luxury-image-viewport">
                     <img src={watch.image} alt={watch.title} className="luxury-watch-image" />

@@ -137,3 +137,10 @@
   font-weight: 600;
   font-size: 1.1rem;
 }
+
+.card-tag.out-of-stock-badge {
+  left: auto;
+  right: 1rem;
+  background-color: #DC2626;
+  color: #FFFFFF;
+}

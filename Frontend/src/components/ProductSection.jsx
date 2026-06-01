@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import './ProductSection.css';
 
-const ProductSection = ({ title, subtitle, products, onNavigate, onSelectProduct }) => {
+const ProductSection = ({ title, subtitle, products, onNavigate, onSelectProduct, outOfStockTitles = [] }) => {
   const [activeTab, setActiveTab] = useState('MEN');
 
   const filteredProducts = products.filter(p => p.category === activeTab);
@@ -32,6 +32,7 @@ const ProductSection = ({ title, subtitle, products, onNavigate, onSelectProduct
           <ProductCard 
             key={product.id} 
             {...product} 
+            isOutOfStock={outOfStockTitles?.includes(product.title)}
             onClick={() => onSelectProduct(product)} 
           />
         ))}
