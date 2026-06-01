@@ -307,3 +307,18 @@
   box-shadow: 0 6px 20px rgba(197, 168, 128, 0.3);
   transform: translateY(-2px);
 }
+
+.btn-detail-action:disabled {
+  background-color: #E7E5E4 !important;
+  color: #A8A29E !important;
+  border-color: #E7E5E4 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.quantity-selector button:disabled {
+  background-color: #FAF8F5 !important;
+  color: #D6D3D1 !important;
+  cursor: not-allowed !important;
+}

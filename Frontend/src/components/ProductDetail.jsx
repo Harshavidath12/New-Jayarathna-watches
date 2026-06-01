@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ProductDetail.css';
 
-const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate }) => {
+const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate, isOutOfStock }) => {
   const [qty, setQty] = useState(1);
 
   if (!product) return null;
@@ -89,14 +89,16 @@ const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate }) => {
                     onClick={handleDecreaseQty} 
                     className="qty-btn"
                     aria-label="Decrease quantity"
+                    disabled={isOutOfStock}
                   >
                     —
                   </button>
-                  <span className="qty-value">{qty}</span>
+                  <span className="qty-value">{isOutOfStock ? 0 : qty}</span>
                   <button 
                     onClick={handleIncreaseQty} 
                     className="qty-btn"
                     aria-label="Increase quantity"
+                    disabled={isOutOfStock}
                   >
                     +
                   </button>
@@ -107,15 +109,17 @@ const ProductDetail = ({ product, onAddToCart, onBuyItNow, onNavigate }) => {
                 <button 
                   onClick={() => onAddToCart(product, qty)} 
                   className="btn-detail-action btn-add-cart"
+                  disabled={isOutOfStock}
                 >
-                  ADD TO CART
+                  {isOutOfStock ? 'OUT OF STOCK' : 'ADD TO CART'}
                 </button>
                 
                 <button 
                   onClick={() => onBuyItNow(product, qty)} 
                   className="btn-detail-action btn-buy-now"
+                  disabled={isOutOfStock}
                 >
-                  BUY IT NOW
+                  {isOutOfStock ? 'OUT OF STOCK' : 'BUY IT NOW'}
                 </button>
               </div>
             </div>
