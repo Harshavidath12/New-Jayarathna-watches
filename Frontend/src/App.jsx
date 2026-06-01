@@ -17,6 +17,7 @@ import Profile from './components/Profile';
 import AboutUs from './components/AboutUs';
 import AdminDashboard from './components/AdminDashboard';
 import SearchResults from './components/SearchResults';
+import InventoryDashboard from './components/InventoryDashboard';
 
 // Dummy data for products based on generated images
 // Dummy data for products based on generated images
@@ -214,6 +215,26 @@ function App() {
   // Navigation & Product Detail states
   const [currentPage, setCurrentPage] = useState('HOME'); // 'HOME', 'MENS_COLLECTION', 'PRODUCT_DETAIL', 'CHECKOUT', 'ORDER_SUCCESS'
   const [searchQuery, setSearchQuery] = useState('');
+  const [outOfStockTitles, setOutOfStockTitles] = useState([]);
+
+  const fetchInventory = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/inventory');
+      const data = await res.json();
+      if (res.ok && data.inventory) {
+        const outOfStock = data.inventory
+          .filter(item => item.stock <= 0)
+          .map(item => item.title);
+        setOutOfStockTitles(outOfStock);
+      }
+    } catch (err) {
+      console.error('Error fetching inventory:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchInventory();
+  }, []);
   
   const [selectedProduct, setSelectedProduct] = useState(() => {
     try {
@@ -324,6 +345,15 @@ function App() {
         } else {
           setCurrentPage('ADMIN');
         }
+      } else if (path === '/inventory') {
+        const savedUser = localStorage.getItem('nj_user');
+        const parsedUser = savedUser ? JSON.parse(savedUser) : null;
+        if (!parsedUser || parsedUser.email !== 'inventory@gmail.com') {
+          setCurrentPage('SIGN_IN');
+          window.history.replaceState({ page: 'SIGN_IN' }, '', '/signin');
+        } else {
+          setCurrentPage('INVENTORY_DASHBOARD');
+        }
       } else if (path === '/profile') {
         const savedUser = localStorage.getItem('nj_user');
         if (!savedUser || savedUser === 'null') {
@@ -363,6 +393,7 @@ function App() {
     else if (pageName === 'PROFILE') newPath = '/profile';
     else if (pageName === 'ORDERS') newPath = '/orders';
     else if (pageName === 'ADMIN') newPath = '/admin';
+    else if (pageName === 'INVENTORY_DASHBOARD') newPath = '/inventory';
     else if (pageName === 'SEARCH_RESULTS') newPath = `/search?q=${encodeURIComponent(param || searchQuery)}`;
 
     window.history.pushState({ page: pageName }, '', newPath);
@@ -423,6 +454,7 @@ function App() {
   const handleCompleteOrder = (shippingData) => {
     setPlacedOrderCustomer(shippingData.customerName);
     setCart([]); // Clear cart after successful checkout
+    fetchInventory(); // Re-fetch inventory stock list!
     navigateTo('ORDER_SUCCESS');
   };
 
@@ -436,6 +468,8 @@ function App() {
     }
     if (userData && userData.email === 'dicksonskd62@gmail.com') {
       navigateTo('ADMIN');
+    } else if (userData && userData.email === 'inventory@gmail.com') {
+      navigateTo('INVENTORY_DASHBOARD');
     } else {
       navigateTo('PROFILE');
     }
@@ -479,6 +513,7 @@ function App() {
           <MensCollection 
             onSelectProduct={handleSelectProduct} 
             onNavigate={navigateTo} 
+            outOfStockTitles={outOfStockTitles}
           />
         );
       case 'WOMENS_COLLECTION':
@@ -486,6 +521,7 @@ function App() {
           <WomensCollection 
             onSelectProduct={handleSelectProduct} 
             onNavigate={navigateTo} 
+            outOfStockTitles={outOfStockTitles}
           />
         );
       case 'ABOUT_US':
@@ -501,6 +537,7 @@ function App() {
             onAddToCart={handleAddToCart}
             onBuyItNow={handleBuyItNow}
             onNavigate={navigateTo}
+            isOutOfStock={outOfStockTitles.includes(selectedProduct?.title)}
           />
         );
       case 'CHECKOUT':
@@ -552,12 +589,21 @@ function App() {
             onSignOut={handleSignOut} 
           />
         );
+      case 'INVENTORY_DASHBOARD':
+        return (
+          <InventoryDashboard 
+            onNavigate={navigateTo} 
+            onSignOut={handleSignOut} 
+            onInventoryChange={fetchInventory}
+          />
+        );
       case 'SEARCH_RESULTS':
         return (
           <SearchResults 
             searchQuery={searchQuery}
             onSelectProduct={handleSelectProduct}
             onNavigate={navigateTo}
+            outOfStockTitles={outOfStockTitles}
           />
         );
       case 'HOME':
@@ -565,21 +611,22 @@ function App() {
         return (
           <>
             <Hero onNavigate={navigateTo} />
-            <ProductSection subtitle="Our Best - Sellers" products={bestSellers} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} />
-            <ProductSection subtitle="Explore Exclusives" products={exclusives} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} />
+            <ProductSection subtitle="Our Best - Sellers" products={bestSellers} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} outOfStockTitles={outOfStockTitles} />
+            <ProductSection subtitle="Explore Exclusives" products={exclusives} onNavigate={navigateTo} onSelectProduct={handleSelectProduct} outOfStockTitles={outOfStockTitles} />
             <Brands />
           </>
         );
     }
   };
 
-  // Elegant e-commerce layout: hide main Header/Footer in Checkout, Success, Sign In, Profile and Admin screens
+  // Elegant e-commerce layout: hide main Header/Footer in Checkout, Success, Sign In, Profile, Admin, and Inventory screens
   const showHeaderFooter = 
     currentPage !== 'CHECKOUT' && 
     currentPage !== 'ORDER_SUCCESS' && 
     currentPage !== 'SIGN_IN' && 
     currentPage !== 'PROFILE' &&
-    currentPage !== 'ADMIN';
+    currentPage !== 'ADMIN' &&
+    currentPage !== 'INVENTORY_DASHBOARD';
 
   return (
     <div className="app">
