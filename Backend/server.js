@@ -73,6 +73,16 @@ const bookingSchema = new mongoose.Schema({
 // explicitly mapping schema to collection name 'booking'
 const Booking = mongoose.model('Booking', bookingSchema, 'booking');
 
+// Define Inventory Schema & Model
+const inventorySchema = new mongoose.Schema({
+  watchId: { type: Number, required: true, unique: true },
+  title: { type: String, required: true, unique: true },
+  stock: { type: Number, default: 10 },
+  sold: { type: Number, default: 0 }
+}, { timestamps: true });
+
+const Inventory = mongoose.model('Inventory', inventorySchema, 'inventory');
+
 // Setup Nodemailer Transporter with zero-config test account fallback
 const createTransporter = async () => {
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -561,6 +571,63 @@ app.put('/api/admin/bookings/:id/status', async (req, res) => {
   }
 });
 
+// 4.9 [INVENTORY] Fetch/Seed all timepiece inventory lists
+app.get('/api/inventory', async (req, res) => {
+  try {
+    let count = await Inventory.countDocuments();
+    if (count === 0) {
+      const defaultInventory = [
+        { watchId: 1, title: "Seiko Prospex Two-Tone Automatic", stock: 10, sold: 0 },
+        { watchId: 2, title: "Seiko 5 Sports Military Automatic", stock: 10, sold: 0 },
+        { watchId: 3, title: "Police Translucent Chrono Red", stock: 2, sold: 0 },
+        { watchId: 4, title: "Tissot PR 100 Chrono Classic", stock: 10, sold: 0 },
+        { watchId: 5, title: "Wimsons Vintage 2026LGMGG", stock: 10, sold: 0 },
+        { watchId: 6, title: "Tissot Flamingo (C5)", stock: 10, sold: 0 },
+        { watchId: 7, title: "Wimsons Executive Chrono Silver", stock: 10, sold: 0 },
+        { watchId: 8, title: "Timberland Outdoor Aviator", stock: 10, sold: 0 },
+        { watchId: 9, title: "Casio Edifice Chronograph", stock: 10, sold: 0 },
+        { watchId: 10, title: "Obaku Denmark Classic", stock: 10, sold: 0 },
+        { watchId: 11, title: "Royal London Gold Heritage", stock: 10, sold: 0 },
+        { watchId: 12, title: "Strand Denmark Classic", stock: 10, sold: 0 },
+        { watchId: 13, title: "Timex Heritage Chrono", stock: 10, sold: 0 },
+        { watchId: 14, title: "Wimsons Vintage Rectangular", stock: 10, sold: 0 },
+        { watchId: 203, title: "Daniel Klein DK 1-13916-6 (P)", stock: 10, sold: 0 },
+        { watchId: 204, title: "Emporio Armani Women's Watch [C]", stock: 10, sold: 0 },
+        { watchId: 205, title: "Tissot Lovely Square", stock: 10, sold: 0 },
+        { watchId: 206, title: "Tissot Bellissima", stock: 10, sold: 0 }
+      ];
+      await Inventory.insertMany(defaultInventory);
+      console.log('Successfully seeded default timepiece inventory in MongoDB Atlas.');
+    }
+    const list = await Inventory.find({}).sort({ watchId: 1 });
+    res.status(200).json({ inventory: list });
+  } catch (err) {
+    console.error('Error fetching/seeding inventory:', err);
+    res.status(500).json({ message: 'Internal server error while fetching inventory.' });
+  }
+});
+
+// 4.10 [INVENTORY] Update inventory stock & sold counts manually
+app.put('/api/inventory/:id/stock', async (req, res) => {
+  const { id } = req.params;
+  const { stock, sold } = req.body;
+
+  try {
+    const updated = await Inventory.findByIdAndUpdate(
+      id,
+      { stock: Number(stock), sold: Number(sold) },
+      { new: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: 'Inventory timepiece not found.' });
+    }
+    res.status(200).json({ message: 'Inventory updated successfully.', item: updated });
+  } catch (err) {
+    console.error('Error updating stock manually:', err);
+    res.status(500).json({ message: 'Internal server error while updating stock.' });
+  }
+});
+
 // 5. Save Checkout Booking details to MongoDB Atlas database table 'booking'
 app.post('/api/bookings', async (req, res) => {
   const { 
@@ -609,6 +676,21 @@ app.post('/api/bookings', async (req, res) => {
     });
 
     await newBooking.save();
+
+    // Decrement inventory stock dynamically based on ordered items
+    try {
+      if (items && items.length > 0) {
+        for (const item of items) {
+          await Inventory.findOneAndUpdate(
+            { title: item.title },
+            { $inc: { stock: -Number(item.quantity), sold: Number(item.quantity) } },
+            { new: true }
+          );
+        }
+      }
+    } catch (invErr) {
+      console.error('Failed to decrement inventory stock on booking checkout:', invErr);
+    }
 
     // Trigger confirmation email asynchronously so it doesn't block the API response
     sendConfirmationEmail(newBooking).catch(err => {
