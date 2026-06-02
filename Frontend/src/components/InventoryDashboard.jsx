@@ -100,7 +100,7 @@ const InventoryDashboard = ({ onNavigate, onSignOut, onInventoryChange }) => {
         {/* KPI Metrics row */}
         <div className="inventory-stats-row">
           <div className="inventory-stat-card">
-            <span className="inv-stat-label">Total Vault Stocks</span>
+            <span className="inv-stat-label">Total Stocks</span>
             <strong className="inv-stat-val">{totalAvailableStock}</strong>
           </div>
           <div className="inventory-stat-card">
