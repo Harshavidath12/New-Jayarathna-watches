@@ -63,7 +63,7 @@ const SignIn = ({ onSignIn, onNavigate }) => {
             <span className="divider-text">or</span>
           </div>
 
-          <form onSubmit={handleSubmit} className="signin-form">
+          <form onSubmit={handleSubmit} className="signin-form" autoComplete="off">
             {error && <div className="signin-error">{error}</div>}
 
             <div className="input-group">
@@ -74,7 +74,7 @@ const SignIn = ({ onSignIn, onNavigate }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                autoComplete="email"
+                autoComplete="off"
               />
               <label htmlFor="email" className="input-label">Email Address</label>
             </div>
@@ -87,7 +87,7 @@ const SignIn = ({ onSignIn, onNavigate }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                autoComplete="current-password"
+                autoComplete="new-password"
               />
               <label htmlFor="password" className="input-label">Password</label>
               
