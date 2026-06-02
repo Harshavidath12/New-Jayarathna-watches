@@ -18,6 +18,7 @@ import AboutUs from './components/AboutUs';
 import AdminDashboard from './components/AdminDashboard';
 import SearchResults from './components/SearchResults';
 import InventoryDashboard from './components/InventoryDashboard';
+import Blogs from './components/Blogs';
 
 // Dummy data for products based on generated images
 // Dummy data for products based on generated images
@@ -363,6 +364,8 @@ function App() {
         } else {
           setCurrentPage('PROFILE');
         }
+      } else if (path === '/blogs') {
+        setCurrentPage('BLOGS');
       } else {
         setCurrentPage('HOME');
       }
@@ -394,6 +397,7 @@ function App() {
     else if (pageName === 'ORDERS') newPath = '/orders';
     else if (pageName === 'ADMIN') newPath = '/admin';
     else if (pageName === 'INVENTORY_DASHBOARD') newPath = '/inventory';
+    else if (pageName === 'BLOGS') newPath = '/blogs';
     else if (pageName === 'SEARCH_RESULTS') newPath = `/search?q=${encodeURIComponent(param || searchQuery)}`;
 
     window.history.pushState({ page: pageName }, '', newPath);
@@ -604,6 +608,12 @@ function App() {
             onSelectProduct={handleSelectProduct}
             onNavigate={navigateTo}
             outOfStockTitles={outOfStockTitles}
+          />
+        );
+      case 'BLOGS':
+        return (
+          <Blogs 
+            onNavigate={navigateTo} 
           />
         );
       case 'HOME':
