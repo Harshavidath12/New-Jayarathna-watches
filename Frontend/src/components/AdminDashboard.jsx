@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import './AdminDashboard.css';
 
 const AdminDashboard = ({ onNavigate, onSignOut }) => {
@@ -21,13 +22,13 @@ const AdminDashboard = ({ onNavigate, onSignOut }) => {
     setError('');
     try {
       // 1. Fetch Users
-      const usersRes = await fetch('http://localhost:5000/api/admin/users');
+      const usersRes = await fetch(`${API_BASE_URL}/admin/users`);
       const usersData = await usersRes.json();
       if (!usersRes.ok) throw new Error(usersData.message || 'Failed to fetch users');
       setUsers(usersData.users || []);
 
       // 2. Fetch Orders
-      const ordersRes = await fetch('http://localhost:5000/api/admin/bookings');
+      const ordersRes = await fetch(`${API_BASE_URL}/admin/bookings`);
       const ordersData = await ordersRes.json();
       if (!ordersRes.ok) throw new Error(ordersData.message || 'Failed to fetch orders');
       setOrders(ordersData.bookings || []);
@@ -51,7 +52,7 @@ const AdminDashboard = ({ onNavigate, onSignOut }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/bookings/${orderId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/admin/bookings/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

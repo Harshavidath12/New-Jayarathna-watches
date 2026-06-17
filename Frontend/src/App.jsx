@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from './config';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductSection from './components/ProductSection';
@@ -220,7 +221,7 @@ function App() {
 
   const fetchInventory = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/inventory');
+      const res = await fetch(`${API_BASE_URL}/inventory`);
       const data = await res.json();
       if (res.ok && data.inventory) {
         const outOfStock = data.inventory

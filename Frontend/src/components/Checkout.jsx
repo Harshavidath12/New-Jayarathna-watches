@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 import './Checkout.css';
 
 const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
@@ -175,7 +176,7 @@ const Checkout = ({ cartItems, onCompleteOrder, onNavigate }) => {
           totalAmount: formatCurrency(calculateTotal())
         };
 
-        const response = await fetch('http://localhost:5000/api/bookings', {
+        const response = await fetch(`${API_BASE_URL}/bookings`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

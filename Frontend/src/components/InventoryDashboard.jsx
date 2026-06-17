@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import './InventoryDashboard.css';
 
 const InventoryDashboard = ({ onNavigate, onSignOut, onInventoryChange }) => {
@@ -12,7 +13,7 @@ const InventoryDashboard = ({ onNavigate, onSignOut, onInventoryChange }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/inventory');
+      const res = await fetch(`${API_BASE_URL}/inventory`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to fetch inventory');
       setInventory(data.inventory || []);
@@ -33,7 +34,7 @@ const InventoryDashboard = ({ onNavigate, onSignOut, onInventoryChange }) => {
     if (newStock < 0) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/inventory/${itemId}/stock`, {
+      const res = await fetch(`${API_BASE_URL}/inventory/${itemId}/stock`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

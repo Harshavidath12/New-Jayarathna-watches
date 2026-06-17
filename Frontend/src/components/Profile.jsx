@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import './Profile.css';
 
 const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'profile' }) => {
@@ -22,7 +23,7 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'prof
         setOrdersLoading(true);
         setOrdersError('');
         try {
-          const response = await fetch(`http://localhost:5000/api/bookings/user/${encodeURIComponent(user.email)}`);
+          const response = await fetch(`${API_BASE_URL}/bookings/user/${encodeURIComponent(user.email)}`);
           const data = await response.json();
           if (!response.ok) {
             throw new Error(data.message || 'Failed to fetch orders');
@@ -62,7 +63,7 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'prof
     setNameError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/update-name', {
+      const response = await fetch(`${API_BASE_URL}/users/update-name`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'prof
     setAddressError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/add-address', {
+      const response = await fetch(`${API_BASE_URL}/users/add-address`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ const Profile = ({ user, onSignOut, onNavigate, onUpdateUser, initialTab = 'prof
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/remove-address', {
+      const response = await fetch(`${API_BASE_URL}/users/remove-address`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

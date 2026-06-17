@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 import './SignIn.css';
 
 const SignIn = ({ onSignIn, onNavigate }) => {
@@ -18,7 +19,7 @@ const SignIn = ({ onSignIn, onNavigate }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signin', {
+      const response = await fetch(`${API_BASE_URL}/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
